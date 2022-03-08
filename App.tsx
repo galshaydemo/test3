@@ -12,35 +12,16 @@ import { assertAnyTypeAnnotation } from '@babel/types';
 import React, { useEffect, useState } from 'react';
 import {
   FlatList,
-  Image,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
-  Text,
-  useColorScheme,
   View,
 } from 'react-native';
-import { ActivityIndicator, Avatar, Button, Card, IconButton, RadioButton, Searchbar, Switch, TextInput, Title } from 'react-native-paper';
+import { ActivityIndicator, Switch} from 'react-native-paper';
 //import studentList from './data.json';
 import { Data, StackOverflowItem } from './stockoverflow'
-
-import {
-  Colors,
-} from 'react-native/Libraries/NewAppScreen';
-import SearchLine from './SearchLine';
-import Header from './Header';
 import { ICardItemProp } from './interfaces';
-import OneItem from './OneItem';
-import SortOrder from './Sort';
+import {Header,OneItem,SortOrder,SearchLine} from './Components';
 import axios from 'axios';
-
-interface User {
-  name: string;
-  imageAvata: string
-
-}
-
+import Icon from 'react-native-vector-icons/FontAwesome';
 const App = () => {
   const url1="https://api.stackexchange.com/2.2/users/"
   const url2="/questions?order=desc&sort=activity&site=stackoverflow"
@@ -51,9 +32,7 @@ const App = () => {
   const [data, setData] = React.useState<StackOverflowItem[]>([])
   const [order,setOrder]=useState(0)
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
+  
   const searchData = (userId:string) => {
     console.log("userId")
     console.log(userId)
@@ -98,13 +77,26 @@ const App = () => {
       if ( a.answer_count > b.answer_count) return 1
       return -1;
   }
+  const ItemDivider = () => {
+    return (
+      <View
+        style={{
+          height: 1,
+          width: "100%",
+          backgroundColor: isDarkMode ? 'white' : 'black',
+        }}
+      />
+    );
+  }
   return (
     
       <View style={{flex:1,flexDirection:'column',borderWidth:1}}>
-        <View style={{flex:1,backgroundColor: isDarkMode ? 'black':'white'}}>
+        <View style={{flex:1,flexDirection:'row', alignItems:'center', justifyContent:'flex-end',paddingHorizontal:20, backgroundColor: isDarkMode ? 'black':'white'}}>
+        <Icon size={32} name={!isDarkMode ? "sun-o":"moon-o"} color={!isDarkMode ? "yellow":"white"}></Icon>
         <Switch  value={isDarkMode}  onValueChange={(value) => { setIsDarkMode(value) }}></Switch>
+        
         </View>
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor : isDarkMode ? 'black':'white'}}>
         <SearchLine dark={isDarkMode} searchData={(userId:string)=>
        {
          
@@ -115,12 +107,12 @@ const App = () => {
         </View>
         {!loading 
         ?
-        <ActivityIndicator/> : null }
-        <View style={{flex:2,alignSelf:'stretch'}}>
+        <ActivityIndicator style={{backgroundColor: isDarkMode ? 'black':'white'}} size={80}/> : null }
+        <View style={{flex:2,alignSelf:'stretch',backgroundColor:isDarkMode ? 'black':'white'}}>
           {data.length > 0 ? <Header dark={isDarkMode} item={data[0]}/> : null }
         </View>
         {data.length>0 ?
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor:isDarkMode ? 'black':'white'}}>
           <SortOrder dark={isDarkMode} changeSordOrder={function (order: number): void {
             if ( order == 0 )
             {
@@ -146,8 +138,11 @@ const App = () => {
           
         } }/>
         </View> : null }
-        <View style={{flex:9}}>
-        {data.length>0 ? <FlatList renderItem={ShowItem} data={data} /> : null}
+        <View style={{flex:9,backgroundColor : isDarkMode ? 'black':'white'}}>
+        {data.length>0 ? <FlatList 
+        renderItem={ShowItem} data={data}
+        ItemSeparatorComponent={ItemDivider}
+         /> : null}
         </View>
       
       <View>

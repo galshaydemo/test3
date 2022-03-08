@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
-import {Card,Avatar, Button} from 'react-native-paper'
-import { StackOverflowItem } from './stockoverflow'
+import {Card,Button} from 'react-native-paper'
 import { Modal, Text,TouchableOpacity,View } from 'react-native'
-import { ICardItemProp } from './interfaces'
-import WebViewItem from './ShowWebView'
+import { ICardItemProp } from '../interfaces'
+
 import WebView from 'react-native-webview'
 
 const OneItem = (item: ICardItemProp) => {

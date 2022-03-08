@@ -1,7 +1,6 @@
 import React from 'react'
 import { View,Text } from 'react-native'
 import {Searchbar,IconButton} from 'react-native-paper'
-import { black, white } from 'react-native-paper/lib/typescript/styles/colors'
 export interface ISearchLineProps
 {
   dark?:boolean
